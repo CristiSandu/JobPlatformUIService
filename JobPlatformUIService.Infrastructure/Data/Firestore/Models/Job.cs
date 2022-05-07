@@ -4,17 +4,17 @@ using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
-    public class Anunt : IFirestoreDocument
+    public class Job : IFirestoreDocument
     {
-        public Anunt()
+        public Job()
         {
 
         }
 
-        public Anunt(string name, string numberEmp, string address,
+        public Job(string name, int numberEmp, string address,
             string description, string domain, string recruterID, DateTime date)
         {
-            ID = Guid.NewGuid().ToString("N");
+            DocumentId = Guid.NewGuid().ToString("N");
             Name = name;
             NumberEmp = numberEmp;
             Address = address;
@@ -24,17 +24,27 @@ namespace JobPlatformUIService.Core.DataModel
             Date = date;
         }
 
-        [FirestoreProperty]
-        public string ID { get; set; }
+        public string DocumentId { get; set; }
+
         [FirestoreProperty]
         public string Name { get; set; }
-        public string NumberEmp { get; set; }
+        
+        [FirestoreProperty]
+        public int NumberEmp { get; set; }
+        
+        [FirestoreProperty]
         public string Address { get; set; }
+        
+        [FirestoreProperty]
         public string Description { get; set; }
+        
+        [FirestoreProperty]
         public string Domain { get; set; }
+        
+        [FirestoreProperty]
         public string RecruterID { get; set; }
+        
+        [FirestoreProperty]
         public DateTime Date { get; set; }
-
-        public string DocumentId => throw new NotImplementedException();
     }
 }

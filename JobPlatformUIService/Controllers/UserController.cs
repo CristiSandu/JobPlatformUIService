@@ -12,11 +12,11 @@ namespace JobPlatformUIService.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IFirestoreService<Admin> _firestoreService;
+        private IFirestoreService<User> _firestoreService;
         private CollectionReference _collectionReference { get; set; }
 
 
-        public UserController(IFirestoreService<Admin> firestoreService,
+        public UserController(IFirestoreService<User> firestoreService,
            IFirestoreContext firestoreContext)
         {
             _firestoreService = firestoreService;
@@ -24,7 +24,7 @@ namespace JobPlatformUIService.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<Admin> GetUser(string id)
+        public async Task<User> GetUser(string id)
         {
             return await _firestoreService.GetDocumentByIds("Users", id);
         }
@@ -38,7 +38,7 @@ namespace JobPlatformUIService.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public async Task<bool> Post([FromBody] Admin user)
+        public async Task<bool> Post([FromBody] User user)
         {
             return await _firestoreService.InsertDocumentAsync(user, _collectionReference);
         }
