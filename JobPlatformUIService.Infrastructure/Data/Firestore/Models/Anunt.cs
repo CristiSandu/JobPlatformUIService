@@ -1,9 +1,10 @@
 using Google.Cloud.Firestore;
+using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 
 namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
-    public class Anunt : IFirebaseEntity
+    public class Anunt : IFirestoreDocument
     {
         public Anunt()
         {
@@ -34,5 +35,6 @@ namespace JobPlatformUIService.Core.DataModel
         public string RecruterID { get; set; }
         public DateTime Date { get; set; }
 
+        public string DocumentId => throw new NotImplementedException();
     }
 }

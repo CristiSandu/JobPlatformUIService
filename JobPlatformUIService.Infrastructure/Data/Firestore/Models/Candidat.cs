@@ -1,9 +1,10 @@
 using Google.Cloud.Firestore;
+using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 
 namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
-    public class Candidat : IFirebaseEntity
+    public class Candidat : IFirestoreDocument
     {
         public Candidat()
         {
@@ -49,5 +50,6 @@ namespace JobPlatformUIService.Core.DataModel
         public bool IsAdmin { get; set; }
         public virtual ICollection<AnunturiCandidat> AnuntList { get; set; } = new List<AnunturiCandidat>();
 
+        public string DocumentId => throw new NotImplementedException();
     }
 }

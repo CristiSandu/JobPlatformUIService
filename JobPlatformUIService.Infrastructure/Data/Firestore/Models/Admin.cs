@@ -32,10 +32,10 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore.Models
         public int age { get; set; }
         
         [FirestoreProperty]
-        public string description { get; set; }
+        public string? description { get; set; }
         
         [FirestoreProperty]
-        public string description_last_job { get; set; }
+        public string? description_last_job { get; set; }
         
         [FirestoreProperty]
         public string domain { get; set; }
@@ -63,5 +63,6 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore.Models
         
         [FirestoreProperty]
         public bool isAdmin { get; set; }
+
     }
 }

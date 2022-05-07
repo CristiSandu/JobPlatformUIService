@@ -1,9 +1,10 @@
 using Google.Cloud.Firestore;
+using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 
 namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
-    public class AnunturiAngajator : IFirebaseEntity
+    public class AnunturiAngajator : IFirestoreDocument
     {
         public AnunturiAngajator()
         {
@@ -23,5 +24,6 @@ namespace JobPlatformUIService.Core.DataModel
         public string AngajatorID { get; set; }
         public virtual ICollection<CandidatiAnunt> AnuntList { get; set; } = new List<CandidatiAnunt>();
 
+        public string DocumentId => throw new NotImplementedException();
     }
 }

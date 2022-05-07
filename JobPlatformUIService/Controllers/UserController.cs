@@ -21,7 +21,6 @@ namespace JobPlatformUIService.Controllers
         {
             _firestoreService = firestoreService;
             _collectionReference = firestoreContext.FirestoreDB.Collection("Users");
-
         }
         // GET: api/<UserController>
         [HttpGet]
@@ -41,7 +40,6 @@ namespace JobPlatformUIService.Controllers
         [HttpPost]
         public async Task<bool> Post([FromBody] Admin user)
         {
-            int i = 0;
             return await _firestoreService.InsertDocumentAsync(user, _collectionReference);
         }
 
