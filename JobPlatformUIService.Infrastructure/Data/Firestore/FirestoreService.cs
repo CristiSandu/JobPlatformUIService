@@ -1,13 +1,7 @@
 ﻿using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
-using System;
-using Microsoft.Extensions.Options;
 using Google.Cloud.Firestore;
 using Microsoft.Extensions.Logging;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using JobPlatformUIService.Core.DataModel;
 
 namespace JobPlatformUIService.Infrastructure.Data.Firestore
 {

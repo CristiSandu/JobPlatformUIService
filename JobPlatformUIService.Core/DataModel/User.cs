@@ -1,10 +1,10 @@
 using Google.Cloud.Firestore;
-using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
+using JobPlatformUIService.Core.SeedWork;
 
-namespace JobPlatformUIService.Infrastructure.Data.Firestore.Models
+namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
-    public class User : IFirestoreDocument
+    public class User : IFirestoreDocument, IAggregateRoot
     {
         public User()
         {

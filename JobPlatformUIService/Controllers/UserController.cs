@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Firestore;
+using JobPlatformUIService.Core.DataModel;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
-using JobPlatformUIService.Infrastructure.Data.Firestore.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -13,14 +14,20 @@ namespace JobPlatformUIService.Controllers
     public class UserController : ControllerBase
     {
         private IFirestoreService<User> _firestoreService;
+
+        private readonly IMediator _mediator;
+
         private CollectionReference _collectionReference { get; set; }
 
 
         public UserController(IFirestoreService<User> firestoreService,
-           IFirestoreContext firestoreContext)
+           IFirestoreContext firestoreContext,
+           IMediator mediator)
         {
             _firestoreService = firestoreService;
             _collectionReference = firestoreContext.FirestoreDB.Collection("Users");
+            _mediator = mediator;
+
         }
         // GET: api/<UserController>
         [HttpGet]

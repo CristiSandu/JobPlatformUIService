@@ -1,8 +1,7 @@
 
 using Google.Cloud.Firestore;
-using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 
-namespace JobPlatformUIService.Infrastructure.Data.Firestore.Models
+namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
     public class CandidateJobs : IFirestoreDocument

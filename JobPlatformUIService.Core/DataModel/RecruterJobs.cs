@@ -1,8 +1,6 @@
 using Google.Cloud.Firestore;
-using JobPlatformUIService.Core.DataModel;
-using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 
-namespace JobPlatformUIService.Infrastructure.Data.Firestore.Models
+namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
     public class RecruterJobs : IFirestoreDocument
@@ -21,16 +19,16 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore.Models
         }
 
         public string DocumentId => $"{AngajatorID}-{JobId}";
-        
+
         [FirestoreProperty]
         public string JobId { get; set; }
-        
+
         [FirestoreProperty]
         public string AngajatorID { get; set; }
 
         [FirestoreProperty]
         public Job Job { get; set; }
-        
+
         [FirestoreProperty]
         public List<CandidateJobs> CandidateList { get; set; }
     }
