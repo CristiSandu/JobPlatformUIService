@@ -1,6 +1,7 @@
 using Google.Cloud.Firestore;
+using JobPlatformUIService.Core.DataModel;
 
-namespace JobPlatformUIService
+namespace JobPlatformUIService.Infrastructure.Data
 {
     public class FirestoreProvider
     {

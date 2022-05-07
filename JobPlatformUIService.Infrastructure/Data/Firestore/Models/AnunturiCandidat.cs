@@ -1,7 +1,7 @@
 
 using Google.Cloud.Firestore;
 
-namespace JobPlatformUIService
+namespace JobPlatformUIService.Core.DataModel
 {
     [FirestoreData]
     public class AnunturiCandidat : IFirebaseEntity

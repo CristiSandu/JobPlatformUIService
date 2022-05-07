@@ -1,16 +1,14 @@
-using Google.Cloud.Firestore;
+using JobPlatformUIService.Infrastructure.Data;
+using JobPlatformUIService.Infrastructure.Data.Firestore;
+using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton(_ => new JobPlatformUIService.FirestoreProvider(
-    new FirestoreDbBuilder
-    {
-        ProjectId = "jobplatform-d63d7",
-        JsonCredentials = "jsonCredentials ?" // <-- service account json file
-    }.Build()
-));
+builder.Services.Configure<FirestoreSettings>(builder.Configuration.GetSection("FirestoreSettings"));
+builder.Services.AddTransient<IFirestoreContext, FirestoreContext>();
+builder.Services.AddTransient(typeof(IFirestoreService<>), typeof(FirestoreService<>));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -20,11 +18,8 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

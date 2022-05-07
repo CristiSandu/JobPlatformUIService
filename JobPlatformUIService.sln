@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPlatformUIService", "JobPlatformUIService\JobPlatformUIService.csproj", "{B9919605-C829-4DD3-9B83-64F05592ED47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobPlatformUIService", "JobPlatformUIService\JobPlatformUIService.csproj", "{B9919605-C829-4DD3-9B83-64F05592ED47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPlatformUIService.Core", "JobPlatformUIService.Core\JobPlatformUIService.Core.csproj", "{69EC6E61-9B62-4D4E-846D-5687A0113351}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPlatformUIService.Infrastructure", "JobPlatformUIService.Infrastructure\JobPlatformUIService.Infrastructure.csproj", "{2D3BA007-7A48-492D-A6CB-F59E01117787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B9919605-C829-4DD3-9B83-64F05592ED47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9919605-C829-4DD3-9B83-64F05592ED47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9919605-C829-4DD3-9B83-64F05592ED47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69EC6E61-9B62-4D4E-846D-5687A0113351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69EC6E61-9B62-4D4E-846D-5687A0113351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69EC6E61-9B62-4D4E-846D-5687A0113351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69EC6E61-9B62-4D4E-846D-5687A0113351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3BA007-7A48-492D-A6CB-F59E01117787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3BA007-7A48-492D-A6CB-F59E01117787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3BA007-7A48-492D-A6CB-F59E01117787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3BA007-7A48-492D-A6CB-F59E01117787}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace JobPlatformUIService
+﻿namespace JobPlatformUIService.Core.DataModel
 {
     public interface IFirebaseEntity
     {
