@@ -24,4 +24,10 @@
     <ProjectReference Include="..\JobPlatformUIService.Infrastructure\JobPlatformUIService.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Jobs\" />
+    <Folder Include="Features\User\AddUser\" />
+    <Folder Include="Web\" />
+  </ItemGroup>
+
 </Project>
