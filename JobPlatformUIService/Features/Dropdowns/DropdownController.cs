@@ -23,7 +23,7 @@ namespace JobPlatformUIService.Features.Dropdowns
         [HttpPost("Domains")]
         public async Task<bool> AddNewDomains([FromBody] AddValues.AddValuesModelRequest request) => await _mediator.Send(request);
 
-
+        // DELETE api/<DropdownController>/5
         [HttpDelete("Domains/{id}")]
         public async Task<bool> DeletUser(string id)
         {
@@ -31,20 +31,5 @@ namespace JobPlatformUIService.Features.Dropdowns
             deleteValue.DocumentId = id;
             return await _mediator.Send(deleteValue);
         }
-        // GET api/<DropdownController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // PUT api/<DropdownController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<DropdownController>/5
-
     }
 }

@@ -19,13 +19,6 @@ namespace JobPlatformUIService.Features.Jobs
         [HttpPost("GetJobs")]
         public async Task<List<Core.Domain.Jobs.JobExtendedModel>> GetJobs([FromBody] GetJobs.GetJobsModelRequest value) => await _mediator.Send(value);
 
-        // GET api/<JobsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<JobsController>
         [HttpPost]
         public async Task<bool> AddJob([FromBody] AddJob.AddJobsModelRequest jobData) => await _mediator.Send(jobData);
@@ -42,12 +35,6 @@ namespace JobPlatformUIService.Features.Jobs
         {
             jobData.JobId = id;
             return await _mediator.Send(jobData);
-        }
-
-        // DELETE api/<JobsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
