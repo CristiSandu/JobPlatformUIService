@@ -11,6 +11,8 @@ namespace JobPlatformUIService.Core.Helpers
         public const string UsersColection = "Users";
         public const string JobsColection = "Jobs";
 
+        public const string TypeColection = "Types";
+        public const string DomainsColection = "Domains";
 
     }
 }

@@ -15,10 +15,7 @@ namespace JobPlatformUIService.Controllers
     {
         private IFirestoreService<User> _firestoreService;
         private CollectionReference _collectionReference { get; set; }
-
         private readonly IMediator _mediator;
-
-
 
         public UserController(IFirestoreService<User> firestoreService,
            IFirestoreContext firestoreContext,
