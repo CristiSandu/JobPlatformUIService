@@ -3,6 +3,7 @@ using Google.Cloud.Firestore;
 using Microsoft.Extensions.Logging;
 using JobPlatformUIService.Core.DataModel;
 
+
 namespace JobPlatformUIService.Infrastructure.Data.Firestore
 {
     public class FirestoreService<T> : IFirestoreService<T>
@@ -92,14 +93,39 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore
             return false;
         }
 
-        public async Task<T> GetDocumentByIds(string collectionName, string documentId)
+        public async Task<List<T>> GetDocumentsInACollection(CollectionReference collectionReference)
         {
-            DocumentReference docRef = _firestoreContext.FirestoreDB.Collection(collectionName).Document(documentId);
-            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
-            T document = snapshot.ConvertTo<T>();
+            try
+            {
+                QuerySnapshot allDataQuerySnapshot = await collectionReference.GetSnapshotAsync();
+                return allDataQuerySnapshot.Documents.Select(s => s.ConvertTo<T>()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on GetAsync: {ex.Message} - {ex.StackTrace}");
+            }
 
-            return document;
+            return new List<T>();
         }
 
+        public async Task<List<T>> GetDocumentByIds(string documentId, CollectionReference collectionReference)
+        {
+            try
+            {
+                DocumentReference docRef = collectionReference.Document(documentId);
+                DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+                T value = snapshot.ConvertTo<T>();
+
+                List<T> result = new();
+                result.Add(value);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on GetAsync: {ex.Message} - {ex.StackTrace}");
+            }
+
+            return new List<T>();
+        }
     }
 }

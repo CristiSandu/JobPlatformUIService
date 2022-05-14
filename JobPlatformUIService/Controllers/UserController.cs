@@ -14,10 +14,10 @@ namespace JobPlatformUIService.Controllers
     public class UserController : ControllerBase
     {
         private IFirestoreService<User> _firestoreService;
+        private CollectionReference _collectionReference { get; set; }
 
         private readonly IMediator _mediator;
 
-        private CollectionReference _collectionReference { get; set; }
 
 
         public UserController(IFirestoreService<User> firestoreService,
@@ -31,9 +31,9 @@ namespace JobPlatformUIService.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<User> GetUser(string id)
+        public async Task<List<User>> GetUser(string id)
         {
-            return await _firestoreService.GetDocumentByIds("Users", id);
+            return await _firestoreService.GetDocumentByIds( id,_collectionReference);
         }
 
         // GET api/<UserController>/5

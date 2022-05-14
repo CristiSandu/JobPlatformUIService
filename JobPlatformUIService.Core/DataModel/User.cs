@@ -77,7 +77,7 @@ namespace JobPlatformUIService.Core.DataModel
         public string Type { get; set; }
 
         [FirestoreProperty]
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; set; } = false;  
 
     }
 }
