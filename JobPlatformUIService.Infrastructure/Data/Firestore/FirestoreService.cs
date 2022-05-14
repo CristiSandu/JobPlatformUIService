@@ -127,5 +127,28 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore
 
             return new List<T>();
         }
+
+        public async Task<bool> DeleteDocumentAsync(T document, CollectionReference collectionReference)
+        {
+            return await DeleteDocumentByIdAsync(document.DocumentId, collectionReference);
+        }
+
+        public async Task<bool> DeleteDocumentByIdAsync(string documentId, CollectionReference collectionReference)
+        {
+
+            var docRef = collectionReference.Document(documentId);
+
+            try
+            {
+                var response = await docRef.DeleteAsync();
+                return response != null;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on DeleteDocumentAsync: {ex.Message} - {ex.StackTrace}");
+            }
+
+            return false;
+        }
     }
 }

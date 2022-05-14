@@ -6,13 +6,13 @@ namespace JobPlatformUIService.Features.User.UpdateUser;
 
 public class UpdateUserModelHandler : IRequestHandler<UpdateUserModelRequest, bool>
 {
-    private IFirestoreService<Core.DataModel.User> _firestoreService;
-    private CollectionReference _collectionReference { get; set; }
+    private readonly IFirestoreService<Core.DataModel.User> _firestoreService;
+    private readonly CollectionReference _collectionReference;
     public UpdateUserModelHandler(IFirestoreService<Core.DataModel.User> firestoreService,
            IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
-        _collectionReference = firestoreContext.FirestoreDB.Collection("Users");
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
     }
     public async Task<bool> Handle(UpdateUserModelRequest request, CancellationToken cancellationToken)
     {

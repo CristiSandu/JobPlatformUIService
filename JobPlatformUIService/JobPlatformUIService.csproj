@@ -25,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Jobs\" />
+    <Folder Include="Features\Jobs\AddJob\" />
+    <Folder Include="Features\Jobs\ChangeJobStatus\" />
+    <Folder Include="Features\Jobs\UpdateJob\" />
     <Folder Include="Web\" />
   </ItemGroup>
 

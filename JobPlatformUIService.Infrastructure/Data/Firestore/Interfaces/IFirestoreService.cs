@@ -17,6 +17,6 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces
         Task<bool> CheckIfPhoneIdExistInDatabase<T>(string phoneId, CollectionReference collectionReference);
         Task<List<T>> GetDocumentsInACollection(CollectionReference collectionReference);
         Task<List<T>> GetDocumentByIds(string documentId, CollectionReference collectionReference);
-
+        Task<bool> DeleteDocumentByIdAsync(string documentId, CollectionReference collectionReference);
     }
 }

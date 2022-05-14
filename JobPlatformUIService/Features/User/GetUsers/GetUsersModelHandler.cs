@@ -6,13 +6,13 @@ namespace JobPlatformUIService.Features.User.GetUsers;
 
 public class GetUsersModelHandler : IRequestHandler<GetUsersModelRequest, List<Core.DataModel.User>>
 {
-    private IFirestoreService<Core.DataModel.User> _firestoreService;
-    private CollectionReference _collectionReference { get; set; }
+    private readonly IFirestoreService<Core.DataModel.User> _firestoreService;
+    private readonly CollectionReference _collectionReference;
     public GetUsersModelHandler(IFirestoreService<Core.DataModel.User> firestoreService,
            IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
-        _collectionReference = firestoreContext.FirestoreDB.Collection("Users");
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
     }
 
     public async Task<List<Core.DataModel.User>> Handle(GetUsersModelRequest request, CancellationToken cancellationToken)

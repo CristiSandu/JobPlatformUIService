@@ -34,8 +34,11 @@ namespace JobPlatformUIService.Features.User
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> DeletUser(string id)
         {
+            DeleteUser.DeleteUsersModelRequest deleteUsers = new();
+            deleteUsers.UserID = id;    
+            return await _mediator.Send(deleteUsers);
         }
     }
 }

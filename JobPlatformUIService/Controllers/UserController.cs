@@ -25,9 +25,8 @@ namespace JobPlatformUIService.Controllers
            IMediator mediator)
         {
             _firestoreService = firestoreService;
-            _collectionReference = firestoreContext.FirestoreDB.Collection("Users");
+            _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
             _mediator = mediator;
-
         }
         // GET: api/<UserController>
         [HttpGet]
