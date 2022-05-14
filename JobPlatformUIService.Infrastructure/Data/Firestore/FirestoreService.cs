@@ -59,6 +59,23 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore
             return false;
         }
 
+        public async Task<bool> UpdateDocumentFieldAsync<V>(string fild, string documentId, V value ,CollectionReference collectionReference, bool mergeAll = true)
+        {
+            var docRef = collectionReference.Document(documentId);
+
+            try
+            {
+                var response = await docRef.UpdateAsync(fild, value);
+                return response != null;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on UpdateDocumentAsync: {ex.Message} - {ex.StackTrace}");
+            }
+
+            return false;
+        }
+
         public async Task<List<T>> GetAllValuesWithCertificateId<T>(string certificateId, CollectionReference collectionReference)
         {
             Query query = collectionReference.WhereEqualTo("CertificateId", certificateId);

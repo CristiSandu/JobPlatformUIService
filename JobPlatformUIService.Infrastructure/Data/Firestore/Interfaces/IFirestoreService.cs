@@ -13,6 +13,7 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces
         IFirestoreContext GetFirestoreContext();
         Task<bool> InsertDocumentAsync(T document, CollectionReference collectionReference);
         Task<bool> UpdateDocumentAsync(T document, CollectionReference collectionReference, bool mergeAll = true);
+        Task<bool> UpdateDocumentFieldAsync<V>(string fild, string documentId, V value, CollectionReference collectionReference, bool mergeAll = true);
         Task<List<T>> GetAllValuesWithCertificateId<T>(string certificateId, CollectionReference collectionReference);
         Task<bool> CheckIfPhoneIdExistInDatabase<T>(string phoneId, CollectionReference collectionReference);
         Task<List<T>> GetDocumentsInACollection(CollectionReference collectionReference);

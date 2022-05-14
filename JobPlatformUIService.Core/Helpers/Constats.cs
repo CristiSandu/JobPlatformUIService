@@ -9,6 +9,8 @@ namespace JobPlatformUIService.Core.Helpers
     public static class Constats
     {
         public const string UsersColection = "Users";
+        public const string JobsColection = "Jobs";
+
 
     }
 }
