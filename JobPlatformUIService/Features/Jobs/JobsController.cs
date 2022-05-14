@@ -16,9 +16,8 @@ namespace JobPlatformUIService.Features.Jobs
             _mediator = mediator;
         }
         // GET: api/<JobsController>
-        //[HttpGet]
-        //public async Task<List<Core.DataModel.Job>> GetJobs([FromRoute] string? jobId = null) => await _mediator.Send();
-
+        [HttpPost("GetJobs")]
+        public async Task<List<Core.Domain.Jobs.JobExtendedModel>> GetJobs([FromBody] GetJobs.GetJobsModelRequest value) => await _mediator.Send(value);
 
         // GET api/<JobsController>/5
         [HttpGet("{id}")]

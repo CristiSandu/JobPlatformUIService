@@ -25,6 +25,7 @@ public class Job : IFirestoreDocument, IAggregateRoot
         IsCheck = false;
     }
 
+    [FirestoreProperty]
     public string DocumentId { get; set; }
 
     [FirestoreProperty]
