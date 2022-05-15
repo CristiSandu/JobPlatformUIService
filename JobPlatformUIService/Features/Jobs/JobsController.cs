@@ -9,7 +9,6 @@ namespace JobPlatformUIService.Features.Jobs
     [ApiController]
     public class JobsController : ControllerBase
     {
-
         private readonly IMediator _mediator;
         public JobsController(IMediator mediator)
         {
@@ -22,6 +21,10 @@ namespace JobPlatformUIService.Features.Jobs
         // POST api/<JobsController>
         [HttpPost]
         public async Task<bool> AddJob([FromBody] AddJob.AddJobsModelRequest jobData) => await _mediator.Send(jobData);
+
+        // POST api/<JobsController>
+        [HttpPost("ApplyToAJob")]
+        public async Task<bool> ApplyToAJob([FromBody] ApplyToJobs.ApplyToJobsModelRequest applyRequest) => await _mediator.Send(applyRequest);
 
         [HttpPost("ValidateJob")]
         public async Task<bool> ValidateOffert([FromBody] ChangeJobStatus.ValidateJobModelRequest validateJob) => await _mediator.Send(validateJob);
