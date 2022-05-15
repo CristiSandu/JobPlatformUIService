@@ -31,10 +31,19 @@ namespace JobPlatformUIService.Features.Jobs
 
         // PUT api/<JobsController>/5
         [HttpPut("{id}")]
-        public async Task<bool> UpdateUser(string id, [FromBody] UpdateJob.UpdateJobsModelRequest jobData)
+        public async Task<bool> UpdateJob(string id, [FromBody] UpdateJob.UpdateJobsModelRequest jobData)
         {
             jobData.JobId = id;
             return await _mediator.Send(jobData);
+        }
+
+        // DELETE api/<UsersController>/5
+        [HttpDelete("{id}")]
+        public async Task<bool> DeletJob(string id)
+        {
+            DeleteJob.DeleteJobsModelRequest deleteJobs = new();
+            deleteJobs.JobId = id;
+            return (bool)await _mediator.Send(deleteJobs);
         }
     }
 }
