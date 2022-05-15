@@ -52,6 +52,18 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AnotherPolicy",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
+
+
 builder.Services.AddMediatR(typeof(Program));
 
 var app = builder.Build();
@@ -68,7 +80,7 @@ app.MapControllers().RequireAuthorization();
 
 app.UseAuthorization();
 app.UseAuthenticationAndAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();
