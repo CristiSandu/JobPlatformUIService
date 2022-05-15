@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JobPlatformUIService.Core.DataModel
+﻿namespace JobPlatformUIService.Core.DataModel;
+public interface IFirestoreDocument
 {
-    public interface IFirestoreDocument
-    {
-        public string DocumentId { get; }
-    }
+    public string DocumentId { get; }
 }

@@ -33,7 +33,7 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                 Name = job.Name,
                 Date = job.Date,
                 Description = job.Description,
-                DocumentId = job.DocumentId,
+                DocID = job.DocumentId,
                 IsCheck = job.IsCheck,
                 IsExpired = job.IsExpired,
                 NumberEmp = job.NumberEmp,
