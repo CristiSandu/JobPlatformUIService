@@ -4,7 +4,6 @@ using MediatR;
 
 namespace JobPlatformUIService.Features.Dropdowns.AddValues;
 
-
 public class AddValuesModelHandler : IRequestHandler<AddValuesModelRequest, bool>
 {
     private readonly IFirestoreService<Core.DataModel.DropdownsModels.DomainModel> _firestoreService;
