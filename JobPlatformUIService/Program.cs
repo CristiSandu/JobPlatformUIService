@@ -52,16 +52,9 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AnotherPolicy",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-        });
-});
+
+
+
 
 
 builder.Services.AddMediatR(typeof(Program));
@@ -78,9 +71,14 @@ app.UseHttpLogging();
 
 app.MapControllers().RequireAuthorization();
 
-app.UseAuthorization();
 app.UseAuthenticationAndAuthorization();
-app.UseCors();
+
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin 
+    .AllowCredentials());
+
 app.MapControllers();
 
 app.Run();

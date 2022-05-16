@@ -18,7 +18,6 @@ public class DropdownController : ControllerBase
     }
     // GET: api/<DropdownController>
     [HttpGet("Domains")]
-    [EnableCors("AnotherPolicy")]
     public async Task<List<Core.DataModel.DropdownsModels.DomainModel>> GetDropdownDomainsValue() => await _mediator.Send(new GetValues.GetValuesModelRequest());
 
     // POST api/<DropdownController>
