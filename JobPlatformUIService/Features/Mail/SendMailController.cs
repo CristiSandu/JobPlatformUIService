@@ -15,7 +15,7 @@ public class SendMailController : ControllerBase
     public bool Get()
     {
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("PWeb_smtp_service", "gogoseldulcic90@gmail.com")); // lasă adresa intactă :)
+        message.From.Add(new MailboxAddress("PWeb_smtp_service", "gogoseldulcic90@gmail.com"));
         message.To.Add(new MailboxAddress("User's name here", "User's email address here"));
         message.Subject = "How you doin'?";
 
@@ -31,8 +31,6 @@ I just wanted to let you know that Monica and I were going to go play some paint
         using (var client = new SmtpClient())
         {
             client.Connect("smtp.gmail.com", 587, false);
-
-            // Note: lasă adresa de mail și parola intacte :)
             client.Authenticate("gogoseldulcic90@gmail.com", "sgjbarfdrkskdrvd");
 
             client.Send(message);

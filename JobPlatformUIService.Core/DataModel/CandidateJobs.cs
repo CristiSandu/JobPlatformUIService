@@ -41,7 +41,7 @@ namespace JobPlatformUIService.Core.DataModel
                 if (_status != value)
                 {
                     _status = value;
-                    LastStatusDate = DateTime.Now;
+                    LastStatusDate = DateTime.UtcNow;
                 }
             }
         }

@@ -40,6 +40,10 @@ namespace JobPlatformUIService.Features.Jobs
             return await _mediator.Send(jobData);
         }
 
+        // POST api/<JobsController>/5
+        [HttpPost("JobStatus")]
+        public async Task<bool> ChangeJobStatus([FromBody] ChangeJobStatus.ChangeJobStatusModelRequest jobData) => await _mediator.Send(jobData);
+
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public async Task<bool> DeletJob(string id)
