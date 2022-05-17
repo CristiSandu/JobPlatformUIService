@@ -32,6 +32,8 @@ public class AddJobsModelHandler : IRequestHandler<AddJobsModelRequest, bool>
             CandidateList = new List<Core.DataModel.CandidateJobs>()
         };
 
+        request.JobData.DocumentId = Guid.NewGuid().ToString("N");
+
         var isJobInsertedJ = await _firestoreServiceJ.InsertDocumentAsync(request.JobData, _collectionReference);
         var isJobInsertedR = isJobInsertedJ && await _firestoreServiceR.InsertDocumentAsync(recruterJobs, collectionReferenceR);
 

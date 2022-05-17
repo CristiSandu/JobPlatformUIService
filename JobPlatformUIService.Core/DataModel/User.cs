@@ -6,40 +6,7 @@ namespace JobPlatformUIService.Core.DataModel
     [FirestoreData]
     public class User : IFirestoreDocument, IAggregateRoot
     {
-        public User()
-        {
-
-        }
-
-        public User(string id, string email, string name, string phoneNumber, string address,
-            string description, string domain, string type, bool isAdmin, int? age,
-            string? gender, string? last_level_grad, string? description_last_job)
-        {
-            DocumentId = id;
-            Email = email;
-            Name = name;
-            Phone = phoneNumber;
-            Location = address;
-            Description = description;
-            Domain = domain;
-            Type = type;
-            IsAdmin = isAdmin;
-
-            if (string.Compare(type, "Recruiter") == 0)
-            {
-                Gender = null;
-                Age = 0;
-                Last_level_grad = null;
-                Description_last_job = null;
-            }
-            else if (string.Compare(type, "Candidate") == 0)
-            {
-                Gender = gender;
-                Age = age;
-                Last_level_grad = last_level_grad;
-                Description_last_job = description_last_job;
-            }
-        }
+        
         [FirestoreProperty]
         public string DocumentId { get; set; }
 

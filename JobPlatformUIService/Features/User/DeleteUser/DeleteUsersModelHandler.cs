@@ -18,12 +18,6 @@ public class DeleteUsersModelHandler : IRequestHandler<DeleteUsersModelRequest, 
 
     public async Task<bool> Handle(DeleteUsersModelRequest request, CancellationToken cancellationToken)
     {
-        var userReqData = await _firestoreService.GetDocumentByIds(request.UserReqID, _collectionReference);
-        if (userReqData.Count == 0)
-        {
-            return false;
-        }
-        
-        return userReqData[0].IsAdmin && await _firestoreService.DeleteDocumentByIdAsync(request.UserID, _collectionReference);
+       return  await _firestoreService.DeleteDocumentByIdAsync(request.UserID, _collectionReference);
     }
 }
