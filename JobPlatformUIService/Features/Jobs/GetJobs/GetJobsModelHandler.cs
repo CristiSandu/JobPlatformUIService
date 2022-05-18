@@ -72,8 +72,8 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                 {
                     try
                     {
-                        var val = candidateJobList.First(x => x.JobID == job.DocumentId);
-                        value.IsApplied = val != null;
+                        var val = candidateJobList.Where(x => x.JobID == job.DocumentId).ToList();
+                        value.IsApplied = val.Count > 0 ;
                     }
                     catch (System.InvalidOperationException ex)
                     {
