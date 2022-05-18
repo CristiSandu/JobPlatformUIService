@@ -17,6 +17,7 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces
         Task<List<T>> GetAllValuesWithCertificateId<T>(string certificateId, CollectionReference collectionReference);
         Task<bool> CheckIfPhoneIdExistInDatabase<T>(string phoneId, CollectionReference collectionReference);
         Task<List<T>> GetDocumentsInACollection(CollectionReference collectionReference);
+        Task<List<T>> GetFilteredDocumentsByAField<V>(string fieldPath, V value, CollectionReference collectionReference);
         Task<List<T>> GetDocumentByIds(string documentId, CollectionReference collectionReference);
         Task<bool> DeleteDocumentByIdAsync(string documentId, CollectionReference collectionReference);
     }

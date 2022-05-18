@@ -125,6 +125,23 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore
             return new List<T>();
         }
 
+        public async Task<List<T>> GetFilteredDocumentsByAField<V>(string fieldPath, V value, CollectionReference collectionReference)
+        {
+            try
+            {
+                Query allDataQuerySnapshot = collectionReference.WhereEqualTo(fieldPath, value);
+                QuerySnapshot candidateJobsQuerySnapshot = await allDataQuerySnapshot.GetSnapshotAsync();
+
+                return candidateJobsQuerySnapshot.Documents.Select(s => s.ConvertTo<T>()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on GetAsync: {ex.Message} - {ex.StackTrace}");
+            }
+
+            return new List<T>();
+        }
+
         public async Task<List<T>> GetDocumentByIds(string documentId, CollectionReference collectionReference)
         {
             try
