@@ -6,6 +6,5 @@ public class GetJobsModelRequest : IRequest<List<Core.Domain.Jobs.JobExtendedMod
 {
     public bool IsRecruter { get; set; }
     public bool IsAdmin { get; set; }
-    public bool IsCheck { get; set; }
     public string UserID { get; set; }
 }
