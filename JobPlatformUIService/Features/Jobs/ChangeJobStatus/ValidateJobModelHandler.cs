@@ -1,4 +1,5 @@
 ﻿using Google.Cloud.Firestore;
+using JobPlatformUIService.Features.Jobs.ChangeJobStatus.ModelRequests;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 using MediatR;
 

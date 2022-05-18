@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace JobPlatformUIService.Features.Jobs.ChangeJobStatus;
+namespace JobPlatformUIService.Features.Jobs.ChangeJobStatus.ModelRequests;
 
 public class ExpirationModelRequest : IRequest<bool>
 {

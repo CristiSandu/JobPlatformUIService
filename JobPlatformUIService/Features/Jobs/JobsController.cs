@@ -14,6 +14,7 @@ namespace JobPlatformUIService.Features.Jobs
         {
             _mediator = mediator;
         }
+
         // GET: api/<JobsController>
         [HttpPost("GetJobs")]
         public async Task<List<Core.Domain.Jobs.JobExtendedModel>> GetJobs([FromBody] GetJobs.GetJobsModelRequest value) => await _mediator.Send(value);
@@ -27,10 +28,10 @@ namespace JobPlatformUIService.Features.Jobs
         public async Task<bool> ApplyToAJob([FromBody] ApplyToJobs.ApplyToJobsModelRequest applyRequest) => await _mediator.Send(applyRequest);
 
         [HttpPost("ValidateJob")]
-        public async Task<bool> ValidateOffert([FromBody] ChangeJobStatus.ValidateJobModelRequest validateJob) => await _mediator.Send(validateJob);
+        public async Task<bool> ValidateOffert([FromBody] ChangeJobStatus.ModelRequests.ValidateJobModelRequest validateJob) => await _mediator.Send(validateJob);
         
         [HttpPost("ExpireJob")]
-        public async Task<bool> MakeExpiredJob([FromBody] ChangeJobStatus.ExpirationModelRequest expireJob) => await _mediator.Send(expireJob);
+        public async Task<bool> MakeExpiredJob([FromBody] ChangeJobStatus.ModelRequests.ExpirationModelRequest expireJob) => await _mediator.Send(expireJob);
 
         // PUT api/<JobsController>/5
         [HttpPut("{id}")]
@@ -42,7 +43,7 @@ namespace JobPlatformUIService.Features.Jobs
 
         // POST api/<JobsController>/5
         [HttpPost("JobStatus")]
-        public async Task<bool> ChangeJobStatus([FromBody] ChangeJobStatus.ChangeJobStatusModelRequest jobData) => await _mediator.Send(jobData);
+        public async Task<bool> ChangeJobStatus([FromBody] ChangeJobStatus.ModelRequests.ChangeJobStatusModelRequest jobData) => await _mediator.Send(jobData);
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]

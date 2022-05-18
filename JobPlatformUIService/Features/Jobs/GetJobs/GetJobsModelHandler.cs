@@ -46,7 +46,8 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
             };
 
             value.IsMine = job.RecruterID == request.UserID;
-            value.RecruterName = users.FirstOrDefault(x => x.DocumentId == job.RecruterID)?.Name ;
+            value.RecruterName = users.FirstOrDefault(x => x.DocumentId == job.RecruterID)?.Name;
+            value.IsChecked = job.IsCheck == request.IsCheck;
             result.Add(value);
         });
 
