@@ -24,6 +24,8 @@ public class AddJobsModelHandler : IRequestHandler<AddJobsModelRequest, bool>
     public async Task<bool> Handle(AddJobsModelRequest request, CancellationToken cancellationToken)
     {
         CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
+        request.JobData.DocumentId = Guid.NewGuid().ToString("N");
+
         Core.DataModel.RecruterJobs recruterJobs = new Core.DataModel.RecruterJobs
         {
             JobId = request.JobData.DocumentId,
@@ -31,8 +33,6 @@ public class AddJobsModelHandler : IRequestHandler<AddJobsModelRequest, bool>
             Job = request.JobData,
             CandidateList = new List<Core.DataModel.CandidateJobs>()
         };
-
-        request.JobData.DocumentId = Guid.NewGuid().ToString("N");
 
         var isJobInsertedJ = await _firestoreServiceJ.InsertDocumentAsync(request.JobData, _collectionReference);
         var isJobInsertedR = isJobInsertedJ && await _firestoreServiceR.InsertDocumentAsync(recruterJobs, collectionReferenceR);
