@@ -57,10 +57,10 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                 NumberApplicants = job.NumberApplicants,
                 NumberEmp = job.NumberEmp,
                 RecruterID = job.RecruterID,
+                RecruterName = job.RecruterName,
             };
 
             value.IsMine = job.RecruterID == request.UserID;
-            value.RecruterName = users.FirstOrDefault(x => x.DocumentId == job.RecruterID)?.Name;
 
             if (!request.IsRecruter && !request.IsAdmin)
             {

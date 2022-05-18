@@ -37,5 +37,8 @@ public class Job : IFirestoreDocument, IAggregateRoot
     public string RecruterID { get; set; }
 
     [FirestoreProperty]
+    public string RecruterName { get; set; }
+
+    [FirestoreProperty]
     public DateTime Date { get; set; }
 }
