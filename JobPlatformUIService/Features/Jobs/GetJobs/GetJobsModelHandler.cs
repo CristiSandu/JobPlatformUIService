@@ -64,8 +64,22 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
 
             if (!request.IsRecruter && !request.IsAdmin)
             {
-                var val = candidateJobList.First(x => x.JobID == job.DocumentId);
-                value.IsApplied = val != null;
+                if (!candidateJobList.Any())
+                {
+                    value.IsApplied = false;
+                }
+                else
+                {
+                    try
+                    {
+                        var val = candidateJobList.First(x => x.JobID == job.DocumentId);
+                        value.IsApplied = val != null;
+                    }
+                    catch (System.InvalidOperationException ex)
+                    {
+                        value.IsApplied = false;
+                    }
+                }
             }
 
             if (request.IsAdmin || (!request.IsAdmin && job.IsCheck))
