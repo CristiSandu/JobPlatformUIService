@@ -10,6 +10,7 @@ namespace JobPlatformUIService.Core.Domain.Jobs
     {
         public string RecruterName { get; set; }
         public bool IsMine { get; set; }
+        public bool IsApplied { get; set; }
         public string DocID { get; set; }
 
     }
