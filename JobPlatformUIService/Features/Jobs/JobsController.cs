@@ -29,6 +29,10 @@ namespace JobPlatformUIService.Features.Jobs
         [HttpPost("GetRecruiterJobs")]
         public async Task<List<RecruterJobs>> GetRecruiterJobs([FromBody] GetJobs.ModelRequests.GetRecruiterJobsModelRequest value) => await _mediator.Send(value);
 
+        // GET: api/<JobsController>
+        [HttpPost("GetRecruiterJobsById")]
+        public async Task<List<RecruterJobs>> GetRecruiterJobsById([FromBody] GetJobs.ModelRequests.GetRecruiterJobsByIdModelRequest value) => await _mediator.Send(value);
+
         // POST api/<JobsController>
         [HttpPost]
         public async Task<bool> AddJob([FromBody] AddJob.AddJobsModelRequest jobData) => await _mediator.Send(jobData);
