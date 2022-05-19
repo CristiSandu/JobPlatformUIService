@@ -8,8 +8,8 @@ namespace JobPlatformUIService.Core.Domain.Jobs
 {
     public class JobExtendedModel : DataModel.Job
     {
-        public bool IsMine { get; set; }
-        public bool IsApplied { get; set; }
+        public bool? IsMine { get; set; }
+        public bool? IsApplied { get; set; }
         public string DocID { get; set; }
 
     }

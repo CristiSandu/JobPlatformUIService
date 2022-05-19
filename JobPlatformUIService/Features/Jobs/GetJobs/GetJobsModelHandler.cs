@@ -43,7 +43,7 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
         }
 
         jobs.ForEach(job =>
-        { 
+        {
             Core.Domain.Jobs.JobExtendedModel value = new Core.Domain.Jobs.JobExtendedModel
             {
                 Address = job.Address,
@@ -60,7 +60,15 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                 RecruterName = job.RecruterName,
             };
 
-            value.IsMine = job.RecruterID == request.UserID;
+            if (request.IsRecruter && !request.IsAdmin)
+            {
+                value.IsMine = job.RecruterID == request.UserID;
+            }
+            else
+            {
+                value.IsMine = null;
+            }
+
 
             if (!request.IsRecruter && !request.IsAdmin)
             {
@@ -73,13 +81,17 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                     try
                     {
                         var val = candidateJobList.Where(x => x.JobID == job.DocumentId).ToList();
-                        value.IsApplied = val.Count > 0 ;
+                        value.IsApplied = val.Count > 0;
                     }
                     catch (System.InvalidOperationException ex)
                     {
                         value.IsApplied = false;
                     }
                 }
+            }
+            else
+            {
+                value.IsApplied = null;
             }
 
             if (request.IsAdmin || (!request.IsAdmin && job.IsCheck))
