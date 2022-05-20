@@ -29,10 +29,7 @@ public class ChangeJobStatusModelHandler : IRequestHandler<ChangeJobStatusModelR
         var candidateJobList = await _firestoreServiceC.GetDocumentByIds(request.CandidateJobId, collectionReferenceC);
         var recruterJobList = await _firestoreServiceR.GetDocumentByIds(request.RecruterJobId, collectionReferenceR);
 
-        if (request.JobStatus != 0 || request.JobStatus != 1 || request.JobStatus != 2)
-        {
-            return false;
-        }
+      
 
         var isCandidateJobsStatusOk = await _firestoreServiceC.UpdateDocumentFieldAsync("Status", request.CandidateJobId, request.JobStatus, collectionReferenceC);
 
