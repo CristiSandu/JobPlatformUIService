@@ -62,6 +62,8 @@ public class ApplyToJobsModelHandler : IRequestHandler<ApplyToJobsModelRequest, 
         };
 
         recruterJobList[0].CandidateList.Add(candidate);
+        recruterJobList[0].Job.NumberApplicants = jobList[0].NumberApplicants + 1;
+
 
         CandidateJobsExtendedModel candidateData = new CandidateJobsExtendedModel
         {
@@ -73,20 +75,23 @@ public class ApplyToJobsModelHandler : IRequestHandler<ApplyToJobsModelRequest, 
             ApplyDate = DateTime.UtcNow
         };
 
+        candidateData.JobDetails.NumberApplicants = jobList[0].NumberApplicants + 1;
+
 
         var isCandidatInsertedC = await _firestoreServiceCExt.InsertDocumentAsync(candidateData, collectionReferenceCExt);
-        var isListUpdated = isCandidatInsertedC && await _firestoreServiceR.UpdateDocumentFieldAsync("CandidateList", recruterJobList[0].DocumentId, recruterJobList[0].CandidateList, collectionReferenceR);
+        var isListUpdated = await _firestoreServiceR.UpdateDocumentListAsync(recruterJobList, collectionReferenceR);
 
 
-        if (!isListUpdated)
+        if (!isCandidatInsertedC)
         {
             await _firestoreServiceC.DeleteDocumentByIdAsync(candidate.DocumentId, collectionReferenceC);
-        } else
+        }
+        else
         {
             int increment = jobList[0].NumberApplicants + 1;
-             await _firestoreServiceJob.UpdateDocumentFieldAsync("NumberApplicants", jobList[0].DocumentId, increment, collectionReferenceJob);
+            await _firestoreServiceJob.UpdateDocumentFieldAsync("NumberApplicants", jobList[0].DocumentId, increment, collectionReferenceJob);
         }
 
-        return isListUpdated;
+        return isListUpdated > 0;
     }
 }

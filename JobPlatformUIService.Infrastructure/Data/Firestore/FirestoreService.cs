@@ -76,6 +76,32 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore
             return false;
         }
 
+         public async Task<int> UpdateDocumentListAsync(IList<T> documents, CollectionReference collectionReference, bool mergeAll = true)
+        {
+
+            var batch = _firestoreContext.FirestoreDB.StartBatch();
+
+            foreach (var document in documents)
+            {
+                if (mergeAll)
+                    batch.Set(collectionReference.Document(document.DocumentId), document, SetOptions.MergeAll);
+                else
+                    batch.Set(collectionReference.Document(document.DocumentId), document);
+            }
+
+            try
+            {
+                var response = await batch.CommitAsync();
+                return response?.Count ?? 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on UpdateDocumentListAsync: {ex.Message} - {ex.StackTrace}");
+            }
+
+            return 0;
+        }
+
         public async Task<List<T>> GetAllValuesWithCertificateId<T>(string certificateId, CollectionReference collectionReference)
         {
             Query query = collectionReference.WhereEqualTo("CertificateId", certificateId);
@@ -184,5 +210,26 @@ namespace JobPlatformUIService.Infrastructure.Data.Firestore
 
             return false;
         }
+
+        public async Task<int> DeleteDocumentListAsync(IList<T> documents, CollectionReference collectionReference)
+        {
+            var batch = _firestoreContext.FirestoreDB.StartBatch();
+
+            foreach (var document in documents)
+                batch.Delete(collectionReference.Document(document.DocumentId));
+
+            try
+            {
+                var response = await batch.CommitAsync();
+                return response?.Count ?? 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error on DeleteDocumentListAsync: {ex.Message} - {ex.StackTrace}");
+            }
+
+            return 0;
+        }
+
     }
 }
