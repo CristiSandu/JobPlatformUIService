@@ -23,13 +23,13 @@ public class DeleteJobsModelHandler : IRequestHandler<DeleteJobsModelRequest, bo
         _firestoreServicRJ = firestoreServicRJ;
         _firestoreServicCJ = firestoreServicCJ;
         _firestoreContext = firestoreContext;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
     }
 
     public async Task<bool> Handle(DeleteJobsModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceCJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.CandidateJobsColection);
-        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
+        CollectionReference collectionReferenceCJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
+        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
 
         var getDocsForRJ = await _firestoreServicRJ.GetFilteredDocumentsByAField("JobId", request.JobId, collectionReferenceRJ);
         var getDocsForCJ = await _firestoreServicCJ.GetFilteredDocumentsByAField("JobID", request.JobId, collectionReferenceCJ);

@@ -20,7 +20,7 @@ public class GetRecruiterJobsByIdModelHandler : IRequestHandler<GetRecruiterJobs
 
     public async Task<List<RecruterJobs>> Handle(GetRecruiterJobsByIdModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReference = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
+        CollectionReference collectionReference = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
 
         var recruiterJobList = await _firestoreService.GetDocumentByIds(request.DocumentID, collectionReference);
 

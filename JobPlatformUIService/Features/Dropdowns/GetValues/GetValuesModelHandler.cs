@@ -20,7 +20,7 @@ public class GetValuesModelHandler : IRequestHandler<GetValuesModelRequest, List
     {
         _firestoreService = firestoreService;
         _jwtParser = jwtParser;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.DomainsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.DomainsColection);
     }
 
     public async Task<List<DomainModel>> Handle(GetValuesModelRequest request, CancellationToken cancellationToken)

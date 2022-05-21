@@ -12,7 +12,7 @@ public class AddValuesModelHandler : IRequestHandler<AddValuesModelRequest, bool
            IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.DomainsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.DomainsColection);
     }
 
     public async Task<bool> Handle(AddValuesModelRequest request, CancellationToken cancellationToken)

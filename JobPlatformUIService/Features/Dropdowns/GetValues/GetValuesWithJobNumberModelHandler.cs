@@ -31,9 +31,9 @@ public class GetValuesWithJobNumberModelHandler : IRequestHandler<GetValuesWithJ
         _firestoreServiceJ = firestoreServiceJ;
         _firestoreServiceU = firestoreServiceU;
 
-        _collectionReferenceD = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.DomainsColection);
-        _collectionReferenceJ = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
-        _collectionReferenceU = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
+        _collectionReferenceD = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.DomainsColection);
+        _collectionReferenceJ = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
+        _collectionReferenceU = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection);
     }
 
     public async Task<List<DomainModelExtended>> Handle(GetValuesWithJobNumberModelRequest request, CancellationToken cancellationToken)

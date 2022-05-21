@@ -12,7 +12,7 @@ public class GetUsersModelHandler : IRequestHandler<GetUsersModelRequest, List<C
            IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection);
     }
 
     public async Task<List<Core.DataModel.User>> Handle(GetUsersModelRequest request, CancellationToken cancellationToken)

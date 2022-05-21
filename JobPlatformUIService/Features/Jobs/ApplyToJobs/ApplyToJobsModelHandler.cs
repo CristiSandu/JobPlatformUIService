@@ -35,13 +35,13 @@ public class ApplyToJobsModelHandler : IRequestHandler<ApplyToJobsModelRequest, 
 
     public async Task<bool> Handle(ApplyToJobsModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.CandidateJobsColection);
-        CollectionReference collectionReferenceCExt = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.CandidateJobsColection);
+        CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
+        CollectionReference collectionReferenceCExt = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
 
-        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
-        CollectionReference collectionReferenceU = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
+        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
+        CollectionReference collectionReferenceU = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection);
 
-        CollectionReference collectionReferenceJob = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
+        CollectionReference collectionReferenceJob = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
 
 
 

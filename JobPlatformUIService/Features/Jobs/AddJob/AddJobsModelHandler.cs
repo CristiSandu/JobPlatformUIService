@@ -18,12 +18,12 @@ public class AddJobsModelHandler : IRequestHandler<AddJobsModelRequest, bool>
         _firestoreServiceJ = firestoreServiceJ;
         _firestoreServiceR = firestoreServiceR;
         _firestoreContext = firestoreContext;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
     }
 
     public async Task<bool> Handle(AddJobsModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
+        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
         request.JobData.DocumentId = Guid.NewGuid().ToString("N");
 
         Core.DataModel.RecruterJobs recruterJobs = new Core.DataModel.RecruterJobs

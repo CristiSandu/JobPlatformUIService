@@ -22,12 +22,12 @@ public class ExpirationModelHandler : IRequestHandler<ExpirationModelRequest, bo
         _firestoreServicRJ = firestoreServicRJ;
         _firestoreContext = firestoreContext;
 
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
     }
 
     public async Task<bool> Handle(ExpirationModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
+        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
 
         var updateInJobColection = await _firestoreService.UpdateDocumentFieldAsync("IsExpired", request.JobId, request.IsExpired, _collectionReference);
         var updateInJobColectionJob = await _firestoreServicRJ.GetFilteredDocumentsByAField("JobId", request.JobId, collectionReferenceRJ);

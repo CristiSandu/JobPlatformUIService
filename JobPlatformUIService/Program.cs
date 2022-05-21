@@ -13,7 +13,7 @@ builder.Services.AddTransient<IFirestoreContext, FirestoreContext>();
 builder.Services.AddTransient(typeof(IFirestoreService<>), typeof(FirestoreService<>));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddTransient<IJWTParser, JWTParser>();
+builder.Services.AddSingleton<IJWTParser, JWTParser>();
 
 builder.AddAuth();
 

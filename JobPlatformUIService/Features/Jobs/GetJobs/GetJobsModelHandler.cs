@@ -23,13 +23,13 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
         _firestoreServiceC = firestoreServiceC;
         _firestoreServiceU = firestoreServiceU;
         _firestoreContext = firestoreContext;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
     }
 
     public async Task<List<Core.Domain.Jobs.JobExtendedModel>> Handle(GetJobsModelRequest request, CancellationToken cancellationToken)
     {
         var jobs = await _firestoreService.GetDocumentsInACollection(_collectionReference);
-        var users = await _firestoreServiceU.GetDocumentsInACollection(_firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection));
+        var users = await _firestoreServiceU.GetDocumentsInACollection(_firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection));
 
         List<CandidateJobsExtendedModel> candidateJobList = new();
 
@@ -37,7 +37,7 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
 
         if (!request.IsRecruter && !request.IsAdmin)
         {
-            CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.CandidateJobsColection);
+            CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
             candidateJobList = await _firestoreServiceC.GetFilteredDocumentsByAField("CandidateID", request.UserID, collectionReferenceC);
 
         }

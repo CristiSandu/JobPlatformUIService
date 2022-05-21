@@ -12,7 +12,7 @@ public class UpdateUserModelHandler : IRequestHandler<UpdateUserModelRequest, bo
            IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.UsersColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection);
     }
     public async Task<bool> Handle(UpdateUserModelRequest request, CancellationToken cancellationToken)
     {

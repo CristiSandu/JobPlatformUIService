@@ -23,8 +23,8 @@ public class ChangeJobStatusModelHandler : IRequestHandler<ChangeJobStatusModelR
 
     public async Task<bool> Handle(ChangeJobStatusModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.CandidateJobsColection);
-        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.RecruterJobsColection);
+        CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
+        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
 
         var candidateJobList = await _firestoreServiceC.GetDocumentByIds(request.CandidateJobId, collectionReferenceC);
         var recruterJobList = await _firestoreServiceR.GetDocumentByIds(request.RecruterJobId, collectionReferenceR);

@@ -12,7 +12,7 @@ public class DeleteValuesModelHandler : IRequestHandler<DeleteValuesModelRequest
            IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constats.JobsColection);
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
     }
 
     public async Task<bool> Handle(DeleteValuesModelRequest request, CancellationToken cancellationToken)
