@@ -1,4 +1,5 @@
 using JobPlatformUIService.Authorization;
+using JobPlatformUIService.Helper;
 using JobPlatformUIService.Infrastructure.Data;
 using JobPlatformUIService.Infrastructure.Data.Firestore;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
@@ -7,16 +8,17 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.Configure<FirestoreSettings>(builder.Configuration.GetSection("FirestoreSettings"));
 builder.Services.AddTransient<IFirestoreContext, FirestoreContext>();
 builder.Services.AddTransient(typeof(IFirestoreService<>), typeof(FirestoreService<>));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddTransient<IJWTParser, JWTParser>();
 
 builder.AddAuth();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
@@ -53,15 +55,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-
-
-
-
 builder.Services.AddMediatR(typeof(Program));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -76,7 +73,7 @@ app.UseAuthenticationAndAuthorization();
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true) // allow any origin 
+    .SetIsOriginAllowed(origin => true)
     .AllowCredentials());
 
 app.MapControllers();
