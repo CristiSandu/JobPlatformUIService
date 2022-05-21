@@ -5,6 +5,6 @@ namespace JobPlatformUIService.Features.Jobs.ApplyToJobs;
 public class ApplyToJobsModelRequest : IRequest<bool>
 {
     public string JobId { get; set; }
-    public string AngajatorId { get; set; }
-    public string RecruterJobId => $"{AngajatorId}-{JobId}";
+    public string RecruiterId { get; set; }
+    public string RecruterJobId => $"{RecruiterId}-{JobId}";
 }
