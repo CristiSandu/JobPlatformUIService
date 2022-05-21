@@ -24,32 +24,33 @@ namespace JobPlatformUIService.Features.User
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<bool> AddNewUser([FromBody] AddUser.AddUserModelRequest userData) => await _mediator.Send(userData);
+        public async Task<ActionResult<bool>> AddNewUser([FromBody] AddUser.AddUserModelRequest userData)
+        {
+            var respons = await _mediator.Send(userData);
+            return !respons ? BadRequest(respons) : Ok(respons);
+        }
 
         [HttpPost("MakeUserAdmin")]
         public async Task<ActionResult<bool>> MakeUserAdmin([FromBody] AddUser.MakeUserAdminModelRequest userId)
         {
             var respons = await _mediator.Send(userId);
-            if (!respons)
-                return StatusCode(403);
-            return Ok(respons);
+            return !respons ? StatusCode(403) : Ok(respons);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<bool> UpdateUser(string id, [FromBody] UpdateUser.UpdateUserModelRequest userData)
+        public async Task<ActionResult<bool>> UpdateUser(string id, [FromBody] UpdateUser.UpdateUserModelRequest userData)
         {
-            userData.UserID = id;
-            return await _mediator.Send(userData);
+            var respons = await _mediator.Send(userData);
+            return !respons ? BadRequest(respons) : Ok(respons);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public async Task<bool> DeletUser(string id)
+        public async Task<ActionResult<bool>> DeletUser(string id)
         {
-            DeleteUser.DeleteUsersModelRequest deleteUsers = new();
-            deleteUsers.UserID = id;
-            return await _mediator.Send(deleteUsers);
+            var respons = await _mediator.Send(new DeleteUser.DeleteUsersModelRequest { UserID = id });
+            return !respons ? BadRequest("Error to delete user") : Ok(respons);
         }
     }
 }
