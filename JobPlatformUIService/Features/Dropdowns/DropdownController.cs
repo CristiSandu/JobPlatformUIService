@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using JobPlatformUIService.Core.Domain.Dropdown;
+using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,9 @@ public class DropdownController : ControllerBase
     // GET: api/<DropdownController>
     [HttpGet("Domains")]
     public async Task<List<Core.DataModel.DropdownsModels.DomainModel>> GetDropdownDomainsValue() => await _mediator.Send(new GetValues.GetValuesModelRequest());
+
+    [HttpGet("DomainsAndNumbers/{type}")]
+    public async Task<List<DomainModelExtended>> GetDropdownDomainsAndNumbersValue(bool type) => await _mediator.Send(new GetValues.GetValuesWithJobNumberModelRequest { isUser = type });
 
     // POST api/<DropdownController>
     [HttpPost("Domains")]
