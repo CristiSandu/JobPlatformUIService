@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using JobPlatformUIService.Core.Domain.Jobs;
 using JobPlatformUIService.Core.DataModel;
+using JobPlatformUIService.Features.Jobs.DeleteJob;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,11 +20,11 @@ namespace JobPlatformUIService.Features.Jobs
 
         // GET: api/<JobsController>
         [HttpPost("GetJobs")]
-        public async Task<List<Core.Domain.Jobs.JobExtendedModel>> GetJobs([FromBody] GetJobs.ModelRequests.GetJobsModelRequest value) => await _mediator.Send(value);
+        public async Task<List<JobExtendedModel>> GetJobs([FromBody] GetJobs.ModelRequests.GetJobsModelRequest value) => await _mediator.Send(value);
 
         // GET: api/<JobsController>
         [HttpPost("GetCandidateJobs")]
-        public async Task<List<CandidateJobsExtendedModel>> GetCandidateJobs([FromBody] GetJobs.ModelRequests.GetCandidateJobsModelRequest value) => await _mediator.Send(value);
+        public async Task<ActionResult<List<CandidateJobsExtendedModel>>> GetCandidateJobs([FromBody] GetJobs.ModelRequests.GetCandidateJobsModelRequest value) => await _mediator.Send(value);
 
         // GET: api/<JobsController>
         [HttpPost("GetRecruiterJobs")]
@@ -43,15 +44,14 @@ namespace JobPlatformUIService.Features.Jobs
 
         [HttpPost("ValidateJob")]
         public async Task<bool> ValidateOffert([FromBody] ChangeJobStatus.ModelRequests.ValidateJobModelRequest validateJob) => await _mediator.Send(validateJob);
-        
+
         [HttpPost("ExpireJob")]
         public async Task<bool> MakeExpiredJob([FromBody] ChangeJobStatus.ModelRequests.ExpirationModelRequest expireJob) => await _mediator.Send(expireJob);
 
         // PUT api/<JobsController>/5
         [HttpPut("{id}")]
-        public async Task<bool> UpdateJob(string id, [FromBody] UpdateJob.UpdateJobsModelRequest jobData)
+        public async Task<bool> UpdateJob([FromBody] UpdateJob.UpdateJobsModelRequest jobData)
         {
-            jobData.JobId = id;
             return await _mediator.Send(jobData);
         }
 
@@ -63,9 +63,7 @@ namespace JobPlatformUIService.Features.Jobs
         [HttpDelete("{id}")]
         public async Task<bool> DeletJob(string id)
         {
-            DeleteJob.DeleteJobsModelRequest deleteJobs = new();
-            deleteJobs.JobId = id;
-            return (bool)await _mediator.Send(deleteJobs);
+            return await _mediator.Send(new DeleteJobsModelRequest { JobId = id });
         }
     }
 }

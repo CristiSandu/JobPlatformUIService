@@ -1,6 +1,8 @@
 ﻿using Google.Cloud.Firestore;
 using JobPlatformUIService.Core.DataModel;
 using JobPlatformUIService.Core.Domain.Jobs;
+using JobPlatformUIService.Core.Helpers;
+using JobPlatformUIService.Helper;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 using MediatR;
 
@@ -8,21 +10,21 @@ namespace JobPlatformUIService.Features.Jobs.ApplyToJobs;
 
 public class ApplyToJobsModelHandler : IRequestHandler<ApplyToJobsModelRequest, bool>
 {
-    private readonly IFirestoreService<Core.DataModel.CandidateJobs> _firestoreServiceC;
-    private readonly IFirestoreService<Core.Domain.Jobs.CandidateJobsExtendedModel> _firestoreServiceCExt;
-
-    private readonly IFirestoreService<Core.DataModel.RecruterJobs> _firestoreServiceR;
+    private readonly IFirestoreService<CandidateJobs> _firestoreServiceC;
+    private readonly IFirestoreService<CandidateJobsExtendedModel> _firestoreServiceCExt;
+    private readonly IFirestoreService<RecruterJobs> _firestoreServiceR;
     private readonly IFirestoreService<Core.DataModel.User> _firestoreServiceU;
-    private readonly IFirestoreService<Core.DataModel.Job> _firestoreServiceJob;
-
+    private readonly IFirestoreService<Job> _firestoreServiceJob;
 
     private readonly IFirestoreContext _firestoreContext;
+    private readonly IJWTParser _jwtParser;
 
-    public ApplyToJobsModelHandler(IFirestoreService<Core.DataModel.CandidateJobs> firestoreServiceC,
-        IFirestoreService<Core.DataModel.RecruterJobs> firestoreServiceR,
+    public ApplyToJobsModelHandler(IFirestoreService<CandidateJobs> firestoreServiceC,
+        IFirestoreService<RecruterJobs> firestoreServiceR,
         IFirestoreService<Core.DataModel.User> firestoreServiceU,
-        IFirestoreService<Core.Domain.Jobs.CandidateJobsExtendedModel> firestoreServiceCExt,
-        IFirestoreService<Core.DataModel.Job> firestoreServiceJob,
+        IFirestoreService<CandidateJobsExtendedModel> firestoreServiceCExt,
+        IFirestoreService<Job> firestoreServiceJob,
+        IJWTParser jwtParser,
         IFirestoreContext firestoreContext)
     {
         _firestoreServiceC = firestoreServiceC;
@@ -31,29 +33,32 @@ public class ApplyToJobsModelHandler : IRequestHandler<ApplyToJobsModelRequest, 
         _firestoreServiceCExt = firestoreServiceCExt;
         _firestoreServiceJob = firestoreServiceJob;
         _firestoreContext = firestoreContext;
+        _jwtParser = jwtParser;
+
     }
 
     public async Task<bool> Handle(ApplyToJobsModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
-        CollectionReference collectionReferenceCExt = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
+        if (!await _jwtParser.VerifyUserRole(Constants.CandidateRole))
+            return false;
 
-        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
-        CollectionReference collectionReferenceU = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection);
+        string uid = await _jwtParser.GetUserIdFromJWT();
 
-        CollectionReference collectionReferenceJob = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
+        CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Constants.CandidateJobsColection);
+        CollectionReference collectionReferenceCExt = _firestoreContext.FirestoreDB.Collection(Constants.CandidateJobsColection);
 
-
+        CollectionReference collectionReferenceR = _firestoreContext.FirestoreDB.Collection(Constants.RecruterJobsColection);
+        CollectionReference collectionReferenceU = _firestoreContext.FirestoreDB.Collection(Constants.UsersColection);
+        
+        CollectionReference collectionReferenceJob = _firestoreContext.FirestoreDB.Collection(Constants.JobsColection);
 
         var recruterJobList = await _firestoreServiceR.GetDocumentByIds(request.RecruterJobId, collectionReferenceR);
-        var usersList = await _firestoreServiceU.GetDocumentByIds(request.CandidateId, collectionReferenceU);
-
+        var usersList = await _firestoreServiceU.GetDocumentByIds(uid, collectionReferenceU);
         var jobList = await _firestoreServiceJob.GetDocumentByIds(request.JobId, collectionReferenceJob);
-
 
         CandidateJobs candidate = new CandidateJobs
         {
-            CandidateID = request.CandidateId,
+            CandidateID = uid,
             JobID = request.JobId,
             Candidate = usersList[0],
             Status = 0,
@@ -67,15 +72,13 @@ public class ApplyToJobsModelHandler : IRequestHandler<ApplyToJobsModelRequest, 
 
         CandidateJobsExtendedModel candidateData = new CandidateJobsExtendedModel
         {
-            CandidateID = request.CandidateId,
+            CandidateID = uid,
             JobID = request.JobId,
             Status = 0,
             JobDetails = recruterJobList[0].Job,
             LastStatusDate = DateTime.UtcNow,
             ApplyDate = DateTime.UtcNow
         };
-
-        candidateData.JobDetails.NumberApplicants = jobList[0].NumberApplicants + 1;
 
 
         var isCandidatInsertedC = await _firestoreServiceCExt.InsertDocumentAsync(candidateData, collectionReferenceCExt);

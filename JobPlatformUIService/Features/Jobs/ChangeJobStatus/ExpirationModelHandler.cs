@@ -1,7 +1,9 @@
 ﻿using Google.Cloud.Firestore;
 using JobPlatformUIService.Core.DataModel;
 using JobPlatformUIService.Core.Domain.Jobs;
+using JobPlatformUIService.Core.Helpers;
 using JobPlatformUIService.Features.Jobs.ChangeJobStatus.ModelRequests;
+using JobPlatformUIService.Helper;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 using MediatR;
 
@@ -9,25 +11,34 @@ namespace JobPlatformUIService.Features.Jobs.ChangeJobStatus;
 
 public class ExpirationModelHandler : IRequestHandler<ExpirationModelRequest, bool>
 {
-    private readonly IFirestoreService<Core.DataModel.Job> _firestoreService;
+    private readonly IFirestoreService<Job> _firestoreService;
     private readonly IFirestoreService<RecruterJobs> _firestoreServicRJ;
     private readonly IFirestoreContext _firestoreContext;
+    private readonly IJWTParser _jwtParser;
+
 
     private readonly CollectionReference _collectionReference;
-    public ExpirationModelHandler(IFirestoreService<Core.DataModel.Job> firestoreService,
+    public ExpirationModelHandler(IFirestoreService<Job> firestoreService,
+        IJWTParser jwtParser,
+
         IFirestoreService<RecruterJobs> firestoreServicRJ,
         IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
         _firestoreServicRJ = firestoreServicRJ;
         _firestoreContext = firestoreContext;
+        _jwtParser = jwtParser;
 
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
+
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Constants.JobsColection);
     }
 
     public async Task<bool> Handle(ExpirationModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
+        if (!await _jwtParser.VerifyUserRole(Constants.RecruiterRole))
+            return false;
+
+        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Constants.RecruterJobsColection);
 
         var updateInJobColection = await _firestoreService.UpdateDocumentFieldAsync("IsExpired", request.JobId, request.IsExpired, _collectionReference);
         var updateInJobColectionJob = await _firestoreServicRJ.GetFilteredDocumentsByAField("JobId", request.JobId, collectionReferenceRJ);

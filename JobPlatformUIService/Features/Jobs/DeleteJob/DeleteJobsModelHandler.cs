@@ -1,6 +1,8 @@
 ﻿using Google.Cloud.Firestore;
 using JobPlatformUIService.Core.DataModel;
 using JobPlatformUIService.Core.Domain.Jobs;
+using JobPlatformUIService.Core.Helpers;
+using JobPlatformUIService.Helper;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 using MediatR;
 
@@ -12,24 +14,31 @@ public class DeleteJobsModelHandler : IRequestHandler<DeleteJobsModelRequest, bo
     private readonly IFirestoreService<RecruterJobs> _firestoreServicRJ;
     private readonly IFirestoreService<CandidateJobsExtendedModel> _firestoreServicCJ;
     private readonly IFirestoreContext _firestoreContext;
+    private readonly IJWTParser _jwtParser;
+
     private readonly CollectionReference _collectionReference;
 
     public DeleteJobsModelHandler(IFirestoreService<Job> firestoreService,
         IFirestoreService<RecruterJobs> firestoreServicRJ,
         IFirestoreService<CandidateJobsExtendedModel> firestoreServicCJ,
+        IJWTParser jwtParser,
         IFirestoreContext firestoreContext)
     {
         _firestoreService = firestoreService;
         _firestoreServicRJ = firestoreServicRJ;
         _firestoreServicCJ = firestoreServicCJ;
         _firestoreContext = firestoreContext;
+        _jwtParser = jwtParser;
         _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
     }
 
     public async Task<bool> Handle(DeleteJobsModelRequest request, CancellationToken cancellationToken)
     {
-        CollectionReference collectionReferenceCJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
-        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.RecruterJobsColection);
+        if (!await _jwtParser.VerifyUserRole(Constants.RecruiterRole))
+            return false;
+
+        CollectionReference collectionReferenceCJ = _firestoreContext.FirestoreDB.Collection(Constants.CandidateJobsColection);
+        CollectionReference collectionReferenceRJ = _firestoreContext.FirestoreDB.Collection(Constants.RecruterJobsColection);
 
         var getDocsForRJ = await _firestoreServicRJ.GetFilteredDocumentsByAField("JobId", request.JobId, collectionReferenceRJ);
         var getDocsForCJ = await _firestoreServicCJ.GetFilteredDocumentsByAField("JobID", request.JobId, collectionReferenceCJ);

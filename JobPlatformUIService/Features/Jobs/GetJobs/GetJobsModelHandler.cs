@@ -1,21 +1,27 @@
 ﻿using Google.Cloud.Firestore;
+using JobPlatformUIService.Core.DataModel;
 using JobPlatformUIService.Core.Domain.Jobs;
+using JobPlatformUIService.Core.Helpers;
 using JobPlatformUIService.Features.Jobs.GetJobs.ModelRequests;
+using JobPlatformUIService.Helper;
 using JobPlatformUIService.Infrastructure.Data.Firestore.Interfaces;
 using MediatR;
 
 namespace JobPlatformUIService.Features.Jobs.GetJobs;
 
-public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Core.Domain.Jobs.JobExtendedModel>>
+public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<JobExtendedModel>>
 {
-    private readonly IFirestoreService<Core.DataModel.Job> _firestoreService;
+    private readonly IFirestoreService<Job> _firestoreService;
     private readonly IFirestoreService<Core.DataModel.User> _firestoreServiceU;
     private readonly IFirestoreService<CandidateJobsExtendedModel> _firestoreServiceC;
+    private readonly IJWTParser _jwtParser;
+
 
     private readonly CollectionReference _collectionReference;
     private readonly IFirestoreContext _firestoreContext;
-    public GetJobsModelHandler(IFirestoreService<Core.DataModel.Job> firestoreService,
+    public GetJobsModelHandler(IFirestoreService<Job> firestoreService,
         IFirestoreService<Core.DataModel.User> firestoreServiceU,
+        IJWTParser jwtParser,
         IFirestoreService<CandidateJobsExtendedModel> firestoreServiceC,
         IFirestoreContext firestoreContext)
     {
@@ -23,28 +29,33 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
         _firestoreServiceC = firestoreServiceC;
         _firestoreServiceU = firestoreServiceU;
         _firestoreContext = firestoreContext;
-        _collectionReference = firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.JobsColection);
+        _jwtParser = jwtParser;
+
+        _collectionReference = firestoreContext.FirestoreDB.Collection(Constants.JobsColection);
     }
 
-    public async Task<List<Core.Domain.Jobs.JobExtendedModel>> Handle(GetJobsModelRequest request, CancellationToken cancellationToken)
+    public async Task<List<JobExtendedModel>> Handle(GetJobsModelRequest request, CancellationToken cancellationToken)
     {
+        bool isAdmin = await _jwtParser.VerifyUserRole(Constants.AdminRole);
+        bool isRecruter = await _jwtParser.VerifyUserRole(Constants.RecruiterRole);
+        string uid = await _jwtParser.GetUserIdFromJWT();
+
         var jobs = await _firestoreService.GetDocumentsInACollection(_collectionReference);
-        var users = await _firestoreServiceU.GetDocumentsInACollection(_firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.UsersColection));
+        var users = await _firestoreServiceU.GetDocumentsInACollection(_firestoreContext.FirestoreDB.Collection(Constants.UsersColection));
 
         List<CandidateJobsExtendedModel> candidateJobList = new();
 
-        List<Core.Domain.Jobs.JobExtendedModel> result = new();
+        List<JobExtendedModel> result = new();
 
-        if (!request.IsRecruter && !request.IsAdmin)
+        if (!isRecruter && !isAdmin)
         {
-            CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Core.Helpers.Constants.CandidateJobsColection);
-            candidateJobList = await _firestoreServiceC.GetFilteredDocumentsByAField("CandidateID", request.UserID, collectionReferenceC);
-
+            CollectionReference collectionReferenceC = _firestoreContext.FirestoreDB.Collection(Constants.CandidateJobsColection);
+            candidateJobList = await _firestoreServiceC.GetFilteredDocumentsByAField("CandidateID", uid, collectionReferenceC);
         }
 
         jobs.ForEach(job =>
         {
-            Core.Domain.Jobs.JobExtendedModel value = new Core.Domain.Jobs.JobExtendedModel
+            JobExtendedModel value = new JobExtendedModel
             {
                 Address = job.Address,
                 Domain = job.Domain,
@@ -60,33 +71,18 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                 RecruterName = job.RecruterName,
             };
 
-            if (request.IsRecruter && !request.IsAdmin)
-            {
-                value.IsMine = job.RecruterID == request.UserID;
-            }
-            else
-            {
-                value.IsMine = null;
-            }
+            value.IsMine = (isRecruter && !isAdmin) ? job.RecruterID == uid : null;
 
-
-            if (!request.IsRecruter && !request.IsAdmin)
+            if (!isRecruter && !isAdmin)
             {
-                if (!candidateJobList.Any())
+                try
+                {
+                    var val = candidateJobList.Where(x => x.JobID == job.DocumentId).ToList();
+                    value.IsApplied = candidateJobList.Any() && val.Count > 0;
+                }
+                catch (System.InvalidOperationException ex)
                 {
                     value.IsApplied = false;
-                }
-                else
-                {
-                    try
-                    {
-                        var val = candidateJobList.Where(x => x.JobID == job.DocumentId).ToList();
-                        value.IsApplied = val.Count > 0;
-                    }
-                    catch (System.InvalidOperationException ex)
-                    {
-                        value.IsApplied = false;
-                    }
                 }
             }
             else
@@ -94,7 +90,7 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Cor
                 value.IsApplied = null;
             }
 
-            if (request.IsAdmin || (!request.IsAdmin && job.IsCheck))
+            if (isAdmin || (!isAdmin && job.IsCheck))
             {
                 result.Add(value);
             }
