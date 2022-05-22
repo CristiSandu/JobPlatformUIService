@@ -3,7 +3,7 @@ using System.Text;
 
 namespace JobPlatformUIService.Helper
 {
-    public class RabbitMQService
+    public class RabbitMQService : IRabbitMQService
     {
         public RabbitMQService()
         {
