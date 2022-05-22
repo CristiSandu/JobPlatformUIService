@@ -12,6 +12,8 @@ builder.Services.Configure<FirestoreSettings>(builder.Configuration.GetSection("
 builder.Services.AddTransient<IFirestoreContext, FirestoreContext>();
 builder.Services.AddTransient(typeof(IFirestoreService<>), typeof(FirestoreService<>));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
+
 
 builder.Services.AddSingleton<IJWTParser, JWTParser>();
 
