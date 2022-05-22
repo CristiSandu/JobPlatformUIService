@@ -25,12 +25,11 @@ public class GetJobsModelHandler : IRequestHandler<GetJobsModelRequest, List<Job
         IFirestoreService<CandidateJobsExtendedModel> firestoreServiceC,
         IFirestoreContext firestoreContext)
     {
+        _jwtParser = jwtParser;
         _firestoreService = firestoreService;
         _firestoreServiceC = firestoreServiceC;
         _firestoreServiceU = firestoreServiceU;
         _firestoreContext = firestoreContext;
-        _jwtParser = jwtParser;
-
         _collectionReference = firestoreContext.FirestoreDB.Collection(Constants.JobsColection);
     }
 

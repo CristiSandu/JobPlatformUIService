@@ -25,7 +25,7 @@ public class AddUserModelHandler : IRequestHandler<AddUserModelRequest, bool>
         if (string.IsNullOrEmpty(uid))
             return false;
 
-        await _jwtParser.AssignARoleToUser(uid, request.UserData.Type);
+        await _jwtParser.AssignARoleToUser(uid, request.UserData.Type.ToLower());
         return await _firestoreService.InsertDocumentAsync(request.UserData, _collectionReference);
     }
 }
