@@ -1,0 +1,17 @@
+docker-build-master:
+  stage: build
+  before_script:
+    - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+
+deploy-service-master:
+  stage: deploy
+  script:
+    - apk add --update curl
+    - curl -XPOST http://host.docker.internal:9000/api/webhooks/a9ee2ab7-8ba3-45c0-acbb-7d45cce71c24
+  only:
+    - master
