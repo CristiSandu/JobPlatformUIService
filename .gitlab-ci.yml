@@ -11,6 +11,7 @@ docker-build-master:
 
 deploy-service-master:
   stage: deploy
+  image: docker:latest
   script:
     - apk add --update curl
     - curl -XPOST http://host.docker.internal:9000/api/webhooks/49e55708-fadc-4f81-b9ba-f778914d3915
